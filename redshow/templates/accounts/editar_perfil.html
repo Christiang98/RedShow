@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% block title %}Editar Perfil - Red Show{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-8 offset-md-2">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="mb-4 text-center"><i class="fas fa-user-edit me-2"></i>Editar Perfil</h4>
+                <form method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <h5>Datos Personales</h5>
+                    {{ user_form.as_p }}
+                    <hr>
+                    <h5>
+                        {% if user_type == 'owner' %}
+                            Datos del Establecimiento
+                        {% else %}
+                            Datos Artísticos
+                        {% endif %}
+                    </h5>
+                    {{ perfil_form.as_p }}
+                    <div class="text-center mt-3">
+                        <button type="submit" class="btn btn-success">
+                            <i class="fas fa-save me-1"></i>Guardar Cambios
+                        </button>
+                        <a href="{% url 'ver_perfil' %}" class="btn btn-secondary ms-2">Cancelar</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

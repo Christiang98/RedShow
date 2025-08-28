@@ -1,13 +1,25 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import login
 from django.contrib import messages
-from django.views.generic import CreateView
 from django.urls import reverse_lazy
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.views import LoginView
-from .forms import CustomUserRegistrationForm, EstablishmentOwnerForm, ArtistEntrepreneurForm, CustomLoginForm
-from .models import CustomUser
 
+# Forms
+from .forms import (
+    CustomUserRegistrationForm,
+    CustomLoginForm,
+    EstablishmentOwnerForm,
+    ArtistEntrepreneurForm,
+    CustomUserUpdateForm
+)
+
+# Models
+from .models import CustomUser, EstablishmentOwner, ArtistEntrepreneur
+
+# -------------------------
+# Login
+# -------------------------
 class CustomLoginView(LoginView):
     form_class = CustomLoginForm
     template_name = 'accounts/login.html'
@@ -15,14 +27,16 @@ class CustomLoginView(LoginView):
     def get_success_url(self):
         return reverse_lazy('dashboard')
 
+
+# -------------------------
+# Registro
+# -------------------------
 def register_view(request):
     if request.method == 'POST':
         user_form = CustomUserRegistrationForm(request.POST)
-        
         if user_form.is_valid():
             user = user_form.save()
             user_type = user_form.cleaned_data['user_type']
-            
             if user_type == 'owner':
                 return redirect('complete_owner_profile')
             else:
@@ -32,6 +46,10 @@ def register_view(request):
     
     return render(request, 'accounts/register.html', {'form': user_form})
 
+
+# -------------------------
+# Completar perfiles
+# -------------------------
 @login_required
 def complete_owner_profile(request):
     if request.user.user_type != 'owner':
@@ -54,6 +72,7 @@ def complete_owner_profile(request):
     
     return render(request, 'accounts/complete_owner_profile.html', {'form': form})
 
+
 @login_required
 def complete_artist_profile(request):
     if request.user.user_type != 'artist':
@@ -75,3 +94,50 @@ def complete_artist_profile(request):
         form = ArtistEntrepreneurForm()
     
     return render(request, 'accounts/complete_artist_profile.html', {'form': form})
+
+
+# -------------------------
+# Ver perfil
+# -------------------------
+@login_required
+def ver_perfil(request):
+    user = request.user
+    context = {'user': user}
+    return render(request, 'accounts/ver_perfil.html', context)
+
+
+# -------------------------
+# Editar perfil
+# -------------------------
+@login_required
+def editar_perfil(request):
+    user = request.user
+
+    # Determinar tipo de perfil
+    if user.user_type == 'owner':
+        perfil_form_class = EstablishmentOwnerForm
+        perfil_instance = getattr(user, 'owner_profile', None)
+    else:
+        perfil_form_class = ArtistEntrepreneurForm
+        perfil_instance = getattr(user, 'artist_profile', None)
+
+    if request.method == 'POST':
+        user_form = CustomUserUpdateForm(request.POST, request.FILES, instance=user)
+        perfil_form = perfil_form_class(request.POST, instance=perfil_instance)
+        if user_form.is_valid() and perfil_form.is_valid():
+            user_form.save()
+            perfil = perfil_form.save(commit=False)
+            perfil.user = user
+            perfil.save()
+            messages.success(request, 'Perfil actualizado correctamente.')
+            return redirect('ver_perfil')
+    else:
+        user_form = CustomUserUpdateForm(instance=user)
+        perfil_form = perfil_form_class(instance=perfil_instance)
+
+    context = {
+        'user_form': user_form,
+        'perfil_form': perfil_form,
+        'user_type': user.user_type
+    }
+    return render(request, 'accounts/editar_perfil.html', context)

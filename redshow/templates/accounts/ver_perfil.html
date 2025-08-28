@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+
+{% block title %}Mi Perfil - Red Show{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-8 offset-md-2">
+        <div class="card mb-4">
+            <div class="card-body text-center">
+                {% if user.profile_image %}
+                    <img src="{{ user.profile_image.url }}" class="rounded-circle mb-3" width="150" height="150">
+                {% else %}
+                    <i class="fas fa-user-circle fa-8x text-muted mb-3"></i>
+                {% endif %}
+                <h4>{{ user.get_full_name|default:user.username }}</h4>
+                <p>{{ user.email }} | {{ user.phone }}</p>
+                <p>
+                    <strong>Tipo de usuario:</strong>
+                    {% if user.user_type == 'owner' %}
+                        Dueño de Establecimiento
+                    {% else %}
+                        Artista/Emprendedor
+                    {% endif %}
+                </p>
+                <a href="{% url 'editar_perfil' %}" class="btn btn-primary mt-2">
+                    <i class="fas fa-edit me-1"></i>Editar Perfil
+                </a>
+            </div>
+        </div>
+
+        {% if user.user_type == 'owner' and user.owner_profile %}
+        <div class="card">
+            <div class="card-body">
+                <h5>Datos del Establecimiento</h5>
+                <p><strong>Nombre:</strong> {{ user.owner_profile.business_name }}</p>
+                <p><strong>Tipo:</strong> {{ user.owner_profile.business_type }}</p>
+                <p><strong>Dirección:</strong> {{ user.owner_profile.address }}</p>
+                <p><strong>Capacidad:</strong> {{ user.owner_profile.capacity }} personas</p>
+                <p><strong>CUIT/CUIL:</strong> {{ user.owner_profile.cuit_cuil }}</p>
+                <p><strong>Descripción:</strong> {{ user.owner_profile.description }}</p>
+            </div>
+        </div>
+        {% elif user.user_type == 'artist' and user.artist_profile %}
+        <div class="card">
+            <div class="card-body">
+                <h5>Datos Artísticos</h5>
+                <p><strong>Nombre Artístico:</strong> {{ user.artist_profile.stage_name }}</p>
+                <p><strong>Categoría:</strong> {{ user.artist_profile.get_category_display }}</p>
+                <p><strong>Biografía:</strong> {{ user.artist_profile.bio }}</p>
+                <p><strong>Años de experiencia:</strong> {{ user.artist_profile.experience_years }}</p>
+                <p><strong>Portfolio:</strong> <a href="{{ user.artist_profile.portfolio_url }}" target="_blank">{{ user.artist_profile.portfolio_url }}</a></p>
+                <p><strong>Instagram:</strong> {{ user.artist_profile.instagram }}</p>
+                <p><strong>Facebook:</strong> {{ user.artist_profile.facebook }}</p>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
