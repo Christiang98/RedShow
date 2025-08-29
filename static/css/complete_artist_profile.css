@@ -1,0 +1,62 @@
+.profile-complete-container {
+    margin-top: 40px;
+    margin-bottom: 40px;
+}
+
+.card {
+    border-radius: 15px;
+    overflow: hidden;
+}
+
+.card-header {
+    padding: 20px;
+}
+
+.card-header h3 {
+    font-size: 1.8rem;
+    font-weight: bold;
+}
+
+.card-header p {
+    font-size: 0.95rem;
+    opacity: 0.9;
+}
+
+.card-body {
+    background-color: #fff;
+}
+
+form label {
+    font-weight: 600;
+}
+
+form input, form textarea, form select {
+    border-radius: 10px;
+    border: 1px solid #ccc;
+    padding: 10px;
+    width: 100%;
+    font-size: 1rem;
+    transition: border-color 0.3s;
+}
+
+form input:focus, form textarea:focus, form select:focus {
+    border-color: #f39c12;
+    box-shadow: 0 0 8px rgba(243,156,18,0.3);
+    outline: none;
+}
+
+form small {
+    font-size: 0.85rem;
+}
+
+.btn-warning {
+    border-radius: 12px;
+    padding: 12px;
+    font-size: 1.1rem;
+    transition: transform 0.2s ease, background-color 0.3s ease;
+}
+
+.btn-warning:hover {
+    background-color: #e0a800;
+    transform: translateY(-2px);
+}

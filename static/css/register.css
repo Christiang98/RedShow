@@ -1,0 +1,70 @@
+/* User type options */
+.user-type-group {
+    margin-bottom: 1.5rem;
+}
+
+.user-type-options {
+    display: flex;
+    gap: 1rem;
+    justify-content: space-between;
+}
+
+.user-type-option {
+    flex: 1;
+    background: #f0f4f8;
+    padding: 0.8rem 1rem;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    cursor: pointer;
+    border: 2px solid transparent;
+    transition: all 0.3s ease;
+    font-weight: 600;
+    color: #2d3748;
+}
+
+.user-type-option i {
+    font-size: 1.2rem;
+    color: #667eea;
+}
+
+.user-type-option input {
+    display: none;
+}
+
+.user-type-option:hover {
+    background: #e6ebf5;
+}
+
+.user-type-option input:checked + i,
+.user-type-option input:checked {
+    border-color: #667eea;
+    background: #e6ebf5;
+}
+
+/* Botón de registrarse igual al login */
+.btn-register {
+    width: 100%;
+    padding: 1rem 1.5rem;
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #ffffff;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+}
+
+.btn-register:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(102, 126, 234, 0.4);
+}
+.btn-register:active {
+    transform: translateY(0);
+    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+}
