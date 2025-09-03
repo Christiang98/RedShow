@@ -11,11 +11,13 @@ from .forms import (
     CustomLoginForm,
     EstablishmentOwnerForm,
     ArtistEntrepreneurForm,
-    CustomUserUpdateForm
+    CustomUserUpdateForm,
+    ProfileMediaForm
 )
 
 # Models
-from .models import CustomUser, EstablishmentOwner, ArtistEntrepreneur
+from .models import CustomUser, EstablishmentOwner, ArtistEntrepreneur, ProfileMedia
+
 
 # -------------------------
 # Login
@@ -102,7 +104,11 @@ def complete_artist_profile(request):
 @login_required
 def ver_perfil(request):
     user = request.user
-    context = {'user': user}
+    media = user.media.all()
+    context = {
+        'user': user,
+        'media': media
+    }
     return render(request, 'accounts/ver_perfil.html', context)
 
 
@@ -113,31 +119,67 @@ def ver_perfil(request):
 def editar_perfil(request):
     user = request.user
 
-    # Determinar tipo de perfil
+    # Determinar el formulario de perfil según el tipo
     if user.user_type == 'owner':
-        perfil_form_class = EstablishmentOwnerForm
         perfil_instance = getattr(user, 'owner_profile', None)
+        perfil_form_class = EstablishmentOwnerForm
     else:
-        perfil_form_class = ArtistEntrepreneurForm
         perfil_instance = getattr(user, 'artist_profile', None)
+        perfil_form_class = ArtistEntrepreneurForm
+
+    # Crear perfil vacío si no existe
+    if perfil_instance is None:
+        perfil_instance = perfil_form_class.Meta.model(user=user)
+        perfil_instance.save()
 
     if request.method == 'POST':
         user_form = CustomUserUpdateForm(request.POST, request.FILES, instance=user)
         perfil_form = perfil_form_class(request.POST, instance=perfil_instance)
+        media_form = ProfileMediaForm(request.POST, request.FILES)
+
+        # Validar primero usuario + perfil
         if user_form.is_valid() and perfil_form.is_valid():
             user_form.save()
+
             perfil = perfil_form.save(commit=False)
             perfil.user = user
             perfil.save()
+
+            # Procesar media solo si hay archivo
+            if media_form.is_valid() and media_form.cleaned_data.get('file'):
+                media = media_form.save(commit=False)
+                media.user = user
+                media.save()
+
             messages.success(request, 'Perfil actualizado correctamente.')
             return redirect('ver_perfil')
     else:
         user_form = CustomUserUpdateForm(instance=user)
         perfil_form = perfil_form_class(instance=perfil_instance)
+        media_form = ProfileMediaForm()
 
     context = {
         'user_form': user_form,
         'perfil_form': perfil_form,
+        'media_form': media_form,
         'user_type': user.user_type
     }
     return render(request, 'accounts/editar_perfil.html', context)
+
+
+# -------------------------
+# Dashboard
+# -------------------------
+@login_required
+def dashboard(request):
+    user = request.user
+    context = {'user': user}
+    return render(request, 'accounts/dashboard.html', context)
+
+
+
+
+
+
+
+
