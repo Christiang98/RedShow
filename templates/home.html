@@ -7,8 +7,8 @@
 <!-- Hero Section -->
 <section class="hero-section text-center py-5 mb-5">
     <div class="container">
-        <h1 class="display-4 fw-bold mb-3">
-            <i class="fas fa-star me-2"></i>Red Show
+        <h1 class="mb-4">
+            <img src="/media/logo.png" alt="Logo" class="logo-hero">
         </h1>
         <p class="lead mb-4">La plataforma que conecta espacios para eventos con artistas y emprendedores.</p>
         {% if not user.is_authenticated %}
@@ -97,4 +97,6 @@
 <!-- Home CSS -->
 <link rel="stylesheet" href="{% static 'css/home.css' %}">
 {% endblock %}
+
+
 

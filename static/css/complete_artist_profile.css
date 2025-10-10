@@ -1,62 +1,162 @@
+/* Contenedor principal */
+body {
+    margin: 0;
+    font-family: 'Poppins', sans-serif;
+    background: linear-gradient(to bottom, #182848, #4b6cb7);
+    overflow-x: hidden;
+    position: relative;
+    z-index: 0;
+}
+
 .profile-complete-container {
-    margin-top: 40px;
-    margin-bottom: 40px;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 2rem 1rem;
 }
 
+/* Tarjeta */
 .card {
-    border-radius: 15px;
+    border-radius: 2rem;
     overflow: hidden;
+    color: #2d3748;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
+    width: 100%;
 }
 
+/* Cabecera de la tarjeta */
 .card-header {
-    padding: 20px;
+    text-align: center;
+    padding: 1.5rem;
+    background: linear-gradient(135deg, #3399ff 0%, #1a73e8 100%);
+    color: #ffffff;
 }
 
 .card-header h3 {
-    font-size: 1.8rem;
-    font-weight: bold;
+    margin-bottom: 0.25rem;
+    font-weight: 700;
 }
 
 .card-header p {
-    font-size: 0.95rem;
-    opacity: 0.9;
+    margin-bottom: 0;
+    font-size: 0.9rem;
+    color: #e0f2ff;
 }
 
-.card-body {
-    background-color: #fff;
-}
-
-form label {
+/* Formulario */
+form .form-label {
     font-weight: 600;
+    margin-bottom: 0.25rem;
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
 }
 
-form input, form textarea, form select {
-    border-radius: 10px;
-    border: 1px solid #ccc;
-    padding: 10px;
-    width: 100%;
-    font-size: 1rem;
-    transition: border-color 0.3s;
+form .form-control,
+form select,
+form textarea {
+    border-radius: 0.75rem;
+    padding: 0.5rem 0.75rem;
+    border: 1px solid #cce0ff;
+    color: #2d3748;
+    transition: border-color 0.3s, box-shadow 0.3s, background-color 0.3s;
 }
 
-form input:focus, form textarea:focus, form select:focus {
-    border-color: #f39c12;
-    box-shadow: 0 0 8px rgba(243,156,18,0.3);
-    outline: none;
+form .form-control:focus,
+form select:focus,
+form textarea:focus {
+    border-color: #3399ff;
+    box-shadow: 0 4px 12px rgba(51, 153, 255, 0.2);
+    color: #2d3748;
 }
 
-form small {
+/* Texto de ayuda */
+.form-text {
+    font-size: 0.8rem;
+    color: #4a5568;
+}
+
+/* Errores */
+.text-danger {
     font-size: 0.85rem;
+    margin-top: 0.25rem;
+    color: #e53e3e;
 }
 
+/* Botón principal */
 .btn-warning {
+    width: 100%;
+    padding: 0.75rem 1.25rem;
+    font-size: 1rem;
+    font-weight: 700;
+    color: #ffffff;
+    background: linear-gradient(135deg, #3399ff 0%, #1a73e8 100%);
+    border: none;
     border-radius: 12px;
-    padding: 12px;
-    font-size: 1.1rem;
-    transition: transform 0.2s ease, background-color 0.3s ease;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(51, 153, 255, 0.3);
+    transition: all 0.3s ease;
 }
 
 .btn-warning:hover {
-    background-color: #e0a800;
-    transform: translateY(-2px);
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(51, 153, 255, 0.4);
 }
+
+.btn-warning:active {
+    transform: translateY(0);
+    box-shadow: 0 4px 12px rgba(51, 153, 255, 0.3);
+}
+
+/* Margen entre filas del formulario */
+.row > .col-md-6,
+.row > .col-md-4 {
+    margin-bottom: 1rem;
+}
+
+/* Íconos dentro de labels */
+form .form-label i {
+    color: #3399ff;
+    font-size: 1rem;
+}
+
+/* Sección de disponibilidad */
+.availability-day {
+    padding: 0.75rem;
+    border-radius: 0.75rem;
+    background-color: rgba(51, 153, 255, 0.1);
+    border: 1px solid rgba(51, 153, 255, 0.3);
+}
+
+.time-range input[type="time"] {
+    border-radius: 0.5rem;
+    border: 1px solid #cce0ff;
+    padding: 0.25rem 0.5rem;
+    color: #2d3748;
+}
+
+/* Placeholder más tenue */
+::placeholder {
+    color: #9999aa;
+}
+
+/* Responsive */
+@media (max-width: 767px) {
+    .card-body {
+        padding: 1rem;
+    }
+    .time-range {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+}
+
+@media (max-width: 575px) {
+    .btn-warning {
+        font-size: 0.9rem;
+        padding: 0.65rem 1rem;
+    }
+}
+
+
