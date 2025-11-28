@@ -126,11 +126,5 @@ Las pantallas fueron generadas exitosamente en V0.app utilizando un prompt maest
 - Ajustar flujos según feedback
 - Preparar versión beta para testeo cerrado
 
----
 
-## 🧠 Créditos
-
-Proyecto liderado por Ezequiel  
-Diseño funcional, arquitectura técnica y prompts generados en colaboración con Copilot AI  
-Pantallas generadas con [V0.app](https://v0.dev)
 
